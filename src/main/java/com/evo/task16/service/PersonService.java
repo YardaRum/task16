@@ -51,9 +51,8 @@ public class PersonService {
         return message;
     }
 
-    public List<Message> getMessagesByPersonId(int PersonId, List<Message> messages) {
+    public List<Message> getMessagesByPersonId(int PersonId) {
         Person person = repository.findById(PersonId).get();
-        messages = person.getMessages();
-        return messages;
+        return person.getMessages();
     }
 }

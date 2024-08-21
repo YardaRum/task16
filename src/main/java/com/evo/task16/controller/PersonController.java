@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 @RestController
@@ -25,9 +24,19 @@ public class PersonController {
         return repository.findAll();
     }
 
-    @GetMapping("/person/{id}")
+    @GetMapping("/person/{p_id}")
     public Optional<Person> findPersonById(@PathVariable int id) {
         return repository.findById(id);
+    }
+
+    @GetMapping("/person/{p_id}/message")
+    public List<Message> getMessagesByPersonId(@PathVariable int PersonId) {
+        return personService.getMessagesByPersonId(PersonId);
+    }
+
+    @GetMapping("/person/{p_id}/message/{m_id}")
+    public Message getPersonMessage(@PathVariable int p_id, @PathVariable int m_id) {
+        return personService.getPersonMessage(p_id, m_id);
     }
 
     @PostMapping("/person")
@@ -36,25 +45,25 @@ public class PersonController {
         return person;
     }
 
-    @PutMapping("/person/{id}")
+    @PutMapping("/person/{p_id}")
     public ResponseEntity<Person> updatePerson(@PathVariable int id, @RequestBody Person person) {
         HttpStatus status = repository.existsById(id) ? HttpStatus.OK : HttpStatus.CREATED;
         return new ResponseEntity<>(personService.personSave(id, person), status);
     }
 
-    @DeleteMapping("/person/{id}")
+    @DeleteMapping("/person/{p_id}")
     public void deletePerson(@PathVariable int id) {
         repository.deleteById(id);
     }
 
-    @PostMapping("/person/{id}/message")
+    @PostMapping("/person/{p_id}/message")
     public ResponseEntity<Person> addMessage(@PathVariable int id, @RequestBody Message message) {
         return personService.addMessageToPerson(id, message);
     }
 
     @DeleteMapping("/person/{p_id}/message/{m_id}")
-    public ResponseEntity<Person> deleteMessageById(@PathVariable int PersonId, @PathVariable int MessagesID) {
-        return null;
+    public void deleteMessageById(@PathVariable int p_id, @PathVariable int m_id) {
+        personService.deleteMessagesById(p_id,m_id);
     }
 
 }
