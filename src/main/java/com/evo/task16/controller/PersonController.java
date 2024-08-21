@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 @RestController
@@ -20,9 +19,6 @@ public class PersonController {
 
     @Autowired
     private PersonService personService;
-
-    //@Autowired
-    //private MessageService messageService;
 
     @GetMapping("/person")
     public Iterable<Person> getPersons() {
@@ -68,7 +64,7 @@ public class PersonController {
 
     @DeleteMapping("/person/{p_id}/message/{m_id}")
     public void deleteMessageById(@PathVariable int p_id, @PathVariable int m_id) {
-        personService.deleteMessagesById(p_id,m_id);
+        personService.deleteMessagesById(p_id, m_id);
     }
 
 }
